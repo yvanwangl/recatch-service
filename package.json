@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/yvanwangl/recatch-service#readme",
   "dependencies": {
+    "@koa/cors": "^2.2.1",
     "@types/koa": "^2.0.39",
     "@types/koa-router": "^7.0.23",
     "@types/reflect-metadata": "0.0.5",
