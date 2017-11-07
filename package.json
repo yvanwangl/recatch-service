@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.ts "
+    "debug": "nodemon --watch src/**/* -e ts,tsx --exec ts-node ./src/app.ts"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,19 @@
   "bugs": {
     "url": "https://github.com/yvanwangl/recatch-service/issues"
   },
-  "homepage": "https://github.com/yvanwangl/recatch-service#readme"
+  "homepage": "https://github.com/yvanwangl/recatch-service#readme",
+  "dependencies": {
+    "@types/koa": "^2.0.39",
+    "@types/koa-router": "^7.0.23",
+    "@types/reflect-metadata": "0.0.5",
+    "koa": "^2.4.1",
+    "koa-body": "^2.5.0",
+    "koa-router": "^7.2.1",
+    "reflect-metadata": "^0.1.10",
+    "typescript": "^2.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1",
+    "ts-node": "^3.3.0"
+  }
 }
