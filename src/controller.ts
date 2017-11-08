@@ -8,7 +8,7 @@ import PostController from './controllers/PostController';
 const router = new Router();
 
 // const addMapping = (controllerName)=>{
-//     //let controller = eval(`new ${controllerName}()`);
+//     //let controller = new controllerName();
 //     let controller = new PostController();
 //     let prototype = PostController.prototype;
 //     let rootPath = Reflect.getMetadata(symbolRequestMappingKey, prototype);

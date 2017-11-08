@@ -3,8 +3,10 @@ import * as Koa from 'koa';
 import * as cors from '@koa/cors';
 import * as koaBody from 'koa-body';
 import controller from './controller';
+import connectMongoose from './database';
 
 const app = new Koa();
+connectMongoose();
 
 app.use(cors({
     origin: 'http://localhost:3000',
