@@ -10,9 +10,9 @@ export let path = (path: string): Function => {
         Reflect.defineMetadata(symbolPathKey, path, target, propertyKey);
         if(!descriptor.value) return;
         let oldMethod = descriptor.value;
-        descriptor.value = (ctx, next)=> {
+        descriptor.value = async (ctx, next)=> {
             const params = Object.assign({}, ctx.request.body, ctx.params);
-            let result = oldMethod.call(this, params);
+            let result = await oldMethod.call(this, params);
             ctx.response.body = result;
         };
     };

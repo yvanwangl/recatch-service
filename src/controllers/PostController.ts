@@ -18,7 +18,8 @@ class PostController {
     @path('/add')
     async addPost(post){
         let newPost = new Post(post);
-        return await newPost.save().exec();
+        let result = await newPost.save();
+        return result;
     }
 }
 
