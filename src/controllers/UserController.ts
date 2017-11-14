@@ -1,21 +1,22 @@
-import { RequestMapping } from '../decorators/requestMapping';
-import { httpGet, httpPost } from '../decorators/http-methods';
-import { path } from '../decorators/path';
+// import { RequestMapping } from '../decorators/requestMapping';
+// import { httpGet, httpPost } from '../decorators/http-methods';
+// import { path } from '../decorators/path';
+import {Path, GET, POST, PathParam} from 'iwinter';
 
-@RequestMapping('/api/users')
+@Path('/api/users')
 class UserController {
 
-    @httpGet
-    @path('/')
+    @GET
+    @Path('/')
     getAllUsers(){
         return [{
             id: 1, name:'wangyafei',age:20
         }];
     }
 
-    @httpGet
-    @path('/:id')
-    getUserById({id}){
+    @POST
+    @Path('/:id')
+    getUserById(@PathParam('id') id: string){
         return [{id, name:'lihuan'}]
     }
 }

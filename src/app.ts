@@ -1,8 +1,11 @@
 import 'reflect-metadata';
 import * as Koa from 'koa';
+import * as path from 'path';
 import * as cors from '@koa/cors';
+import * as Router from 'koa-router';
 import * as koaBody from 'koa-body';
-import controller from './controller';
+//import controller from './controller';
+import IWinter from 'iwinter';
 import connectMongoose from './database';
 
 const app = new Koa();
@@ -25,7 +28,11 @@ app.use(async (ctx, next) => {
 app.use(koaBody());
 
 //controller
-app.use(controller());
+app.use(new IWinter({
+    engine: 'koa',
+    router: new Router(),
+    dir: path.join(__dirname, 'controllers')
+}).controller());
 
 app.listen(4000);
 console.log('app started at port 4000...');
