@@ -10,8 +10,9 @@ class PostController {
     @GET
     @Path('/')
     getAllPosts(){
+        
         return [{
-            id: 0, content: 'test', author: 'wangyafei', comments: []
+            id: 0, content: 'test', author: 'test', comments: []
         }];
     }
 

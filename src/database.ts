@@ -1,8 +1,13 @@
 import * as mongoose from 'mongoose';
+import config from './config/config';
 
-export default function connectMongoose(){
+const { mongodb: { host, port, database, user, pwd } } = config;
+
+const authInfo = user && pwd ? `${user}:${pwd}@` : '';
+
+export default function connectMongoose() {
     mongoose.Promise = global.Promise;
-    mongoose.connect('mongodb://localhost:27017/recatch', {
+    mongoose.connect(`mongodb://${authInfo}${host}:${port}/${database}`, {
         useMongoClient: true
     });
 }

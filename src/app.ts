@@ -9,14 +9,17 @@ import IWinter from 'iwinter';
 import connectMongoose from './database';
 
 const app = new Koa();
+//connect to mongodb
 connectMongoose();
 
+//cros config
 app.use(cors({
     origin: 'http://localhost:3000',
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
     credentials: true,
 }));
 
+//request execute time
 app.use(async (ctx, next) => {
     console.log(`Process ${ctx.request.method} ${ctx.request.url} ${ctx.request.path}`);
     let startTime = new Date().getTime(),
@@ -34,5 +37,4 @@ app.use(new IWinter({
     dir: path.join(__dirname, 'controllers')
 }).controller());
 
-app.listen(4000);
-console.log('app started at port 4000...');
+export default app;
