@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "cross-env NODE_ENV=development nodemon --watch src/**/* -e ts,tsx --exec ts-node ./src/bin/www",
-    "start:prod": "cross-env NODE_ENV=production pm2 start ./src/bin/www --name 'recatch-service'"
+    "start:prod": "cross-env NODE_ENV=development pm2-docker start ./build/bin/www.js",
+    "build": "tsc -P tsconfig.json --sourceMap false"
   },
   "repository": {
     "type": "git",

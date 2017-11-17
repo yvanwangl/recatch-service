@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import * as Koa from 'koa';
+import * as Koa from 'koa'
 import * as path from 'path';
 import * as cors from '@koa/cors';
 import * as Router from 'koa-router';
@@ -10,7 +10,7 @@ import connectMongoose from './database';
 
 const app = new Koa();
 //connect to mongodb
-connectMongoose();
+//connectMongoose();
 
 //cros config
 app.use(cors({

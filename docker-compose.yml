@@ -1,0 +1,7 @@
+version: '2'
+services:
+  recatch-service:
+    image: yvanwang/recatch-service:171117
+    container_name: recatch-service
+    environment: 
+      
