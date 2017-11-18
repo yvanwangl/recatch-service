@@ -1,5 +1,5 @@
 import app from '../app';
-import config from '../config/config';
+import config from '../config';
 
 const port = config.server.port || 8082;
 

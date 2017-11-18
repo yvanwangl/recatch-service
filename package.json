@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "cross-env NODE_ENV=development nodemon --watch src/**/* -e ts,tsx --exec ts-node ./src/bin/www",
     "start:prod": "cross-env NODE_ENV=development pm2-docker start ./build/bin/www.js",
-    "build": "tsc -P tsconfig.json --sourceMap false"
+    "build": "tsc -P tsconfig.json --declaration false --sourceMap false"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "koa-router": "^7.2.1",
     "lodash": "^4.17.4",
     "mongoose": "^4.13.0",
+    "pm2-docker": "^2.1.0",
     "reflect-metadata": "^0.1.10",
     "typescript": "^2.6.1"
   },
