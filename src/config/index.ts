@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import {default as defaultConfig} from './config.default';
 
-const env = process.env.NODE_ENV === 'development' ? 'dev' : 'prod';
+const env = process.env.NODE_ENV !== 'production' ? 'dev' : 'prod';
 
 const overrideConfig = require(`./config.${env}`).default;
 
