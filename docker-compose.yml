@@ -1,7 +1,19 @@
 version: '2'
 services:
   recatch-service:
-    image: yvanwang/recatch-service:171117
+    image: recatch-service:latest
     container_name: recatch-service
-    environment: 
-      
+    ports:
+      - "8082:8082"
+    links: 
+      - mongodb:mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports: 
+      - "27017:27017"
+    volumes:
+     - /var/lib/mongo:/data/db
+     - /var/log/mongodb:/var/log/mongodb
+     - /etc/mongod.conf:/etc/mongod.conf.orig

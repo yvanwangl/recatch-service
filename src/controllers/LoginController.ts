@@ -1,8 +1,8 @@
-import * as md5 from 'blueimp-md5';
 import { POST, Path, BodyParam, CtxParam } from 'iwinter';
 import User from '../models/User';
 import { genSalt, buildResponse } from '../utils';
 import { userInfo } from 'os';
+const md5 = require('blueimp-md5');
 
 export interface LonginInfo {
     type?: string;
