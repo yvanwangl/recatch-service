@@ -6,9 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "cross-env NODE_ENV=development nodemon --watch src/**/* -e ts,tsx --exec ts-node ./src/bin/www",
-    "start:prod": "cross-env NODE_ENV=development pm2-docker start ./build/bin/www.js",
+    "start:prod": "cross-env NODE_ENV=production pm2-docker start ./build/bin/www.js",
     "build": "tsc -P tsconfig.json --declaration false --sourceMap false"
   },
+  "pre-commit": [
+    "build"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yvanwangl/recatch-service.git"
@@ -22,6 +25,7 @@
   "homepage": "https://github.com/yvanwangl/recatch-service#readme",
   "dependencies": {
     "@koa/cors": "^2.2.1",
+    "@types/blueimp-md5": "^2.7.0",
     "@types/koa": "^2.0.39",
     "@types/koa-router": "^7.0.23",
     "@types/lodash": "^4.14.85",
@@ -36,6 +40,7 @@
     "lodash": "^4.17.4",
     "mongoose": "^4.13.0",
     "pm2-docker": "^2.1.0",
+    "pre-commit": "^1.2.2",
     "reflect-metadata": "^0.1.10",
     "typescript": "^2.6.1"
   },
