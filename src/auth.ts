@@ -1,0 +1,1 @@
+export const userLoginAuth = (ctx, next)=> ctx.session.userInfo;

@@ -17,6 +17,6 @@ const postSchema = new Schema({
 
 postSchema.statics.findByStatus = async (postStatus) => await this.find({ postStatus: new RegExp(postStatus, 'i') });
 
-postSchema.statics.findByUser = async (userId) => await this.find({ userId: new RegExp(userId, 'i') });
+postSchema.statics.findByUserId = async (userId) => await this.find({ userId });
 
 export default mongoose.model('Post', postSchema);

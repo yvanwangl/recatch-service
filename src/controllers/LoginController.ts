@@ -51,17 +51,18 @@ class LoginController {
      */
     private async signin({ username, password }: LonginInfo, ctx: any) {
         let users = await User.findByUsername(username);
-        if(users.length != 1) {
+        if (users.length != 1) {
             return buildResponse('username.or.password.error');
         }
-        let {salt, password: confirmPwd, admin} = users[0];
+        let { _id, salt, password: confirmPwd, admin } = users[0];
         //判断密码是否正确
-        if(md5(password, salt) != confirmPwd) {
+        if (md5(password, salt) != confirmPwd) {
             return buildResponse('username.or.password.error');
         }
         //登录成功，写入 session
-        ctx.session.username = username;
-        return buildResponse(null, {username, admin});
+        let userInfo = { userId: _id, username, admin };
+        ctx.session.userInfo = userInfo;
+        return buildResponse(null, userInfo);
     }
 
     /**
@@ -81,7 +82,7 @@ class LoginController {
             return buildResponse('fail');
         }
         //调用登录方法，注册完成直接登录
-        return await this.signin({username, password}, ctx);
+        return await this.signin({ username, password }, ctx);
     }
 
 }
