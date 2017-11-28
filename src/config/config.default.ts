@@ -7,6 +7,7 @@ export default {
         pwd: ''
     },
     server: {
+        host: 'localhost',
         port: '8082'
     }
 };
