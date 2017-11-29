@@ -2,6 +2,7 @@ import { Path, POST, BodyParam, CtxParam } from 'iwinter';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as formidable from 'formidable';
+import * as qiniu from 'qiniu';
 import config from '../config';
 import { userLoginAuth } from '../auth';
 import { buildResponse } from '../utils';
@@ -13,7 +14,7 @@ class UploadController {
     @Path('/')
     async upload( @BodyParam('formData') formData: any, @CtxParam('ctx') ctx: any) {
         //139.224.195.74
-        let { server: { host, port } } = config;
+        let { server: { host, port }, qiniu: { publicBucketDomain, accessKey, secretKey, bucket } } = config;
         // 文件将要上传到哪个文件夹下面
         let uploadfoldername = 'uploadfiles';
         let uploadfolderpath = path.join(__dirname, '../../public', uploadfoldername);
@@ -25,12 +26,6 @@ class UploadController {
                 if (err) {
                     return console.log('formidable, form.parse err');
                 }
-
-                console.log('formidable, form.parse ok');
-                // 显示参数，例如 token
-                console.log('显示上传时的参数 begin');
-                console.log(fields);
-                console.log('显示上传时的参数 end');
 
                 let item;
                 // 计算 files 长度
@@ -79,11 +74,45 @@ class UploadController {
                         } else {
                             // 保存成功
                             console.log('fs.rename done');
-                            // 拼接图片url地址
-                            result = 'http://' + host + ':' + port + '/' + uploadfoldername + '/' + filename;
-                        }
+                            //上传图片到七牛
+                            let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+                            let options = {
+                                scope: `${bucket}:${filename}`,
+                            };
+                            let putPolicy = new qiniu.rs.PutPolicy(options);
+                            let uploadToken = putPolicy.uploadToken(mac);
 
-                        resolve(buildResponse(null, result));
+                            var config = new qiniu.conf.Config() as any;
+                            // 空间对应的机房: 华东
+                            config.zone = qiniu.zone.Zone_z0;
+                            var localFile = filenewpath;
+                            var formUploader = new qiniu.form_up.FormUploader(config);
+                            var putExtra = new qiniu.form_up.PutExtra();
+                            var key = filename;
+                            // 文件上传
+                            formUploader.putFile(uploadToken, key, localFile, putExtra, function (respErr,
+                                respBody, respInfo) {
+                                if (respErr) {
+                                    throw respErr;
+                                }
+
+                                if (respInfo.statusCode == 200) {
+                                    console.log(respBody);
+                                    var bucketManager = new qiniu.rs.BucketManager(mac, config);
+                                    // 公开空间访问链接
+                                    var publicDownloadUrl = bucketManager.publicDownloadUrl(publicBucketDomain, key);
+                                    console.log(publicDownloadUrl);
+                                    resolve(buildResponse(null, publicDownloadUrl));
+                                } else {
+                                    console.log(respInfo.statusCode);
+                                    console.log(respBody);
+                                }
+                            });
+
+
+                            // 拼接图片url地址
+                            let localDownloadUrl = 'http://' + host + ':' + port + '/' + uploadfoldername + '/' + filename;
+                        }
                     });
                 }
             });

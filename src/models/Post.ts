@@ -13,6 +13,7 @@ const postSchema = new Schema({
     type: String,
     updateDate: String,
     coverImg: String,
+    labels: Array,
 });
 
 postSchema.statics.findByStatus = async (postStatus) => await this.find({ postStatus: new RegExp(postStatus, 'i') });

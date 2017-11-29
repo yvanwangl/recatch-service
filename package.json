@@ -42,6 +42,7 @@
     "mongoose": "^4.13.0",
     "pm2-docker": "^2.1.0",
     "pre-commit": "^1.2.2",
+    "qiniu": "^7.1.1",
     "reflect-metadata": "^0.1.10",
     "typescript": "^2.6.1"
   },
