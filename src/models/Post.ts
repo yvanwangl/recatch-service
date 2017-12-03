@@ -8,10 +8,12 @@ const postSchema = new Schema({
     plaintext: String,
     content: String,
     publishDate: Date,
-    blogStatus: String,
+    postStatus: {
+        type: String,
+        enum: ['Draft', 'Publish'],
+    },
     count: Number,
     type: String,
-    updateDate: String,
     coverImg: String,
     labels: Array,
 });

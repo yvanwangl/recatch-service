@@ -38,7 +38,7 @@ class LabelController {
     async modifyLabel( @PathParam('id') id: any, @BodyParam('label') label: any, @CtxParam('ctx') ctx: any) {
         let { userId } = ctx.session.userInfo;
         label['userId'] = userId;
-        let result = await Label.findByIdAndUpdate(id, { $set: label });
+        let result = await Label.findByIdAndUpdate(id, { $set: label }, { new: true });
         return buildResponse(null, result);
     }
 

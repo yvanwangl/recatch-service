@@ -7,7 +7,7 @@ import config from '../config';
 import { userLoginAuth } from '../auth';
 import { buildResponse } from '../utils';
 
-@Path('/api/upload')
+@Path('/api/upload', userLoginAuth)
 class UploadController {
 
     @POST
@@ -38,6 +38,7 @@ class UploadController {
                 }
 
                 for (item in files) {
+                    let Froala = item === 'FroalaImg';
                     let file = files[item];
                     // formidable 会将上传的文件存储为一个临时文件，现在获取这个文件的目录
                     let tempfilepath = file.path;
@@ -102,6 +103,10 @@ class UploadController {
                                     // 公开空间访问链接
                                     var publicDownloadUrl = bucketManager.publicDownloadUrl(publicBucketDomain, key);
                                     console.log(publicDownloadUrl);
+                                    //如果为 Froala 上传图片， 则响应对象结构为 {link: 'image/path'}
+                                    if (Froala) {
+                                        resolve({ link: publicDownloadUrl })
+                                    }
                                     resolve(buildResponse(null, publicDownloadUrl));
                                 } else {
                                     console.log(respInfo.statusCode);

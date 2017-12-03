@@ -33,9 +33,14 @@ class PostController {
         return buildResponse(null, posts);
     }
 
+    /**
+     * 新增博客文章
+     */
     @POST
-    @Path('/add')
-    async addPost(post) {
+    @Path('/')
+    async addPost(@BodyParam('post') post: any) {
+        //设置创建时间
+        post.publishDate = new Date();
         let newPost = new Post(post);
         let result = await newPost.save();
         return result;
