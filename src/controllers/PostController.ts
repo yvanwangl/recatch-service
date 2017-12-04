@@ -1,7 +1,7 @@
 // import {RequestMapping} from '../decorators/requestMapping';
 // import {httpGet, httpPost} from '../decorators/http-methods';
 // import {path} from '../decorators/path';
-import { Path, GET, POST, BodyParam, CtxParam } from 'iwinter';
+import { Path, GET, POST, PUT, DELETE, BodyParam, CtxParam, PathParam } from 'iwinter';
 import Post from '../models/Post';
 import { userLoginAuth } from '../auth';
 import { buildResponse } from '../utils';
@@ -37,13 +37,42 @@ class PostController {
      * 新增博客文章
      */
     @POST
-    @Path('/')
-    async addPost(@BodyParam('post') post: any) {
-        //设置创建时间
-        post.publishDate = new Date();
+    @Path('/', userLoginAuth)
+    async addPost( @CtxParam('ctx') ctx: any, @BodyParam('post') post: any) {
+        let { userId, username } = ctx.session.userInfo;
+        //设置创建人 和 创建时间
+        Object.assign(post, {
+            userId,
+            userName: username,
+            publishDate: new Date()
+        });
         let newPost = new Post(post);
         let result = await newPost.save();
-        return result;
+        return buildResponse(null, result);
+    }
+
+    /**
+     * 修改博客文章
+     */
+    @PUT
+    @Path('/:postId', userLoginAuth)
+    async modifyPost( @PathParam('postId') postId: any, @BodyParam('post') post: any) {
+        //如果更新发布时间，则重置 publishData 为当前时间
+        if (post.updateDate) {
+            post.publishDate = new Date();
+        }
+        let result = await Post.findByIdAndUpdate(postId, { $set: post }, { new: true });
+        return buildResponse(null, result);
+    }
+
+    /**
+     * 删除博客文章,则 置博客的状态为： postStatus: Invaild
+     */
+    @DELETE
+    @Path('/:postId', userLoginAuth)
+    async deletePost( @PathParam('postId') postId: any) {
+        let result = await Post.findByIdAndUpdate(postId, { $set: { postStatus: 'Invaild' } }, { new: true });
+        return buildResponse(null, { _id: postId });
     }
 }
 

@@ -2,15 +2,16 @@ import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-    id: Number,
     userId: String,
+    userName: String,
+    author: String,
     title: String,
     plaintext: String,
     content: String,
     publishDate: Date,
     postStatus: {
         type: String,
-        enum: ['Draft', 'Publish'],
+        enum: ['Draft', 'Publish', 'Invaild'],
     },
     count: Number,
     type: String,

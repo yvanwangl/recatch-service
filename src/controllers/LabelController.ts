@@ -50,7 +50,7 @@ class LabelController {
     @DELETE
     async deleteLabel( @PathParam('id') id: any) {
         let result = await Label.findByIdAndRemove(id);
-        return buildResponse(null, result);
+        return buildResponse(null, { _id: id});
     }
 }
 
