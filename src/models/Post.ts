@@ -13,7 +13,10 @@ const postSchema = new Schema({
         type: String,
         enum: ['Draft', 'Publish', 'Invaild'],
     },
-    count: Number,
+    count: {
+        type: Number,
+        default: 1
+    },
     type: String,
     coverImg: String,
     labels: Array,
