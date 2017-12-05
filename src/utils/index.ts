@@ -1,5 +1,3 @@
-import { fail } from "assert";
-
 //生成随机字符串salt
 export function genSalt(len: number=6): string{
     let saltStrList = '0123456789abcdefghijklmnopqrstuvwxy';
