@@ -20,6 +20,7 @@ const postSchema = new Schema({
     type: String,
     coverImg: String,
     labels: Array,
+    comments: Array
 });
 
 postSchema.statics.findByStatus = async function (postStatus) {
