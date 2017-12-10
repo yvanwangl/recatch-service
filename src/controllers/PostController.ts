@@ -4,6 +4,7 @@
 import { Path, GET, POST, PUT, DELETE, BodyParam, CtxParam, PathParam } from 'iwinter';
 import Post from '../models/Post';
 import Comment from '../models/Comment';
+import Label from '../models/Label';
 import { userLoginAuth } from '../auth';
 import { buildResponse } from '../utils';
 
@@ -31,13 +32,14 @@ class PostController {
     async getPostsByUser( @CtxParam('ctx') ctx: any) {
         let { userId } = ctx.session.userInfo;
         let posts = await Post.findByUserId(userId);
-        let result = await Promise.all(posts.map(async (post) => {
+        let postList = await Promise.all(posts.map(async (post) => {
             let commentsByPostId = await Comment.findByPostId(post['_id']);
             post['comments'] = commentsByPostId.map(comment => comment['_id']);
             return post;
         }));
+        let labels = await Label.findByUserId(userId);
 
-        return buildResponse(null, result);
+        return buildResponse(null, {posts: postList, labels});
     }
 
     /**
