@@ -36,13 +36,19 @@ class CommentController {
     }
 
     /**
-     * 删除评论
+     * 删除评论，需要迭代删除所有子评论
      */
     @Path('/:commentId', userLoginAuth)
     @DELETE
     async deleteComment( @PathParam('commentId') commentId: string) {
         let result = await Comment.findByIdAndRemove(commentId);
-        return buildResponse(null, { _id: commentId });
+        let childComments = await Comment.findByParentId(commentId);
+        let commentIds = await Promise.all(childComments.map(async (comment) => {
+            await comment.remove();
+            return comment['_id'];
+        }));
+        commentIds.push(commentId);
+        return buildResponse(null, { commentIds });
     }
 
 }
