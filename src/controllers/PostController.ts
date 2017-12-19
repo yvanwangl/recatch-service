@@ -32,18 +32,16 @@ class PostController {
     async getPostsByUser( @CtxParam('ctx') ctx: any) {
         let { userId } = ctx.session.userInfo;
         let posts = await Post.findByUserId(userId);
-        let comments = [];
         let postList = await Promise.all(posts.map(async (post) => {
             let commentsByPostId = await Comment.findByPostId(post['_id']);
             post['comments'] = commentsByPostId.map(comment => {
                 comment['_id'];
-                comments.push(comment);
             });
             return post;
         }));
         let labels = await Label.findByUserId(userId);
 
-        return buildResponse(null, {posts: postList, labels, comments});
+        return buildResponse(null, {posts: postList, labels});
     }
 
     /**

@@ -18,6 +18,7 @@ class CommentController {
         let posts = await Post.findByUserId(userId);
         let comments = await posts.reduce(async (commentsP, post) => {
             let commentsByPostId = await Comment.findByPostId(post['_id']);
+            commentsByPostId.map(comment=> comment['postName'] = post.title);
             let comments = await commentsP;
             return comments.concat(commentsByPostId);
         }, Promise.resolve([]));

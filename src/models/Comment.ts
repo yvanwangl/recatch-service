@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 let commentSchema = new Schema({
     parentId: String,
     postId: String,
+    postName: String,
     name: String,
     commentTime: {
         type: Date,
