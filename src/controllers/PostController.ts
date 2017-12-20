@@ -16,11 +16,19 @@ class PostController {
      */
     @GET
     @Path('/')
-    getAllPosts() {
+    async getAllPosts() {
+        let posts = await Post.find({});
+        return buildResponse(null, { posts });
+    }
 
-        return [{
-            id: 0, content: 'test', author: 'test', comments: []
-        }];
+    /**
+     * 查询所有文章
+     */
+    @GET
+    @Path('/:postId')
+    async getPostById( @PathParam('postId') postId: string) {
+        let post = await Post.findById(postId);
+        return buildResponse(null, post);
     }
 
     /**
@@ -41,7 +49,7 @@ class PostController {
         }));
         let labels = await Label.findByUserId(userId);
 
-        return buildResponse(null, {posts: postList, labels});
+        return buildResponse(null, { posts: postList, labels });
     }
 
     /**
