@@ -22,12 +22,14 @@ class PostController {
     }
 
     /**
-     * 查询所有文章
+     * 根据postId查询指定博客内容
      */
     @GET
     @Path('/:postId')
     async getPostById( @PathParam('postId') postId: string) {
         let post = await Post.findById(postId);
+        let comments = await Comment.findByPostId(postId);
+        post.comments = comments;
         return buildResponse(null, post);
     }
 
