@@ -22,18 +22,6 @@ class PostController {
     }
 
     /**
-     * 根据postId查询指定博客内容
-     */
-    @GET
-    @Path('/:postId')
-    async getPostById( @PathParam('postId') postId: string) {
-        let post = await Post.findById(postId);
-        let comments = await Comment.findByPostId(postId);
-        post.comments = comments;
-        return buildResponse(null, post);
-    }
-
-    /**
      * 查询当前登录用户的文章
      * @param ctx 
      */
@@ -52,6 +40,18 @@ class PostController {
         let labels = await Label.findByUserId(userId);
 
         return buildResponse(null, { posts: postList, labels });
+    }
+
+    /**
+     * 根据postId查询指定博客内容
+     */
+    @GET
+    @Path('/:postId')
+    async getPostById( @PathParam('postId') postId: string) {
+        let post = await Post.findById(postId);
+        let comments = await Comment.findByPostId(postId);
+        post.comments = comments;
+        return buildResponse(null, post);
     }
 
     /**
