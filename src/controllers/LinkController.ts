@@ -3,7 +3,7 @@ import Link from '../models/Link';
 import { userAdminLoginAuth } from '../auth';
 import { buildResponse } from '../utils';
 
-@Path('/api/projects')
+@Path('/api/links')
 class LinkController {
 
     /**

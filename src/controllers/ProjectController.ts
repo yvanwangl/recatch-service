@@ -30,7 +30,6 @@ class ProjectController {
         return buildResponse(null, { projects });
     }
 
-
     /**
      * 新增项目
      */
@@ -53,7 +52,7 @@ class ProjectController {
      */
     @PUT
     @Path('/:projectId', userLoginAuth)
-    async modifyPost( @PathParam('projectId') projectId: any, @BodyParam('project') project: any) {
+    async modifyProject( @PathParam('projectId') projectId: any, @BodyParam('project') project: any) {
         let result = await Project.findByIdAndUpdate(projectId, { $set: project }, { new: true });
         return buildResponse(null, result);
     }
