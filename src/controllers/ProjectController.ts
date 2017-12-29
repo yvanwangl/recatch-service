@@ -13,7 +13,7 @@ class ProjectController {
     @Path('/')
     async getAllProjects() {
         let projects = await Project.find({});
-        return buildResponse(null, { projects });
+        return buildResponse(null, projects);
     }
 
 
@@ -27,7 +27,7 @@ class ProjectController {
         let { userId } = ctx.session.userInfo;
         let projects = await Project.findByUserId(userId);
 
-        return buildResponse(null, { projects });
+        return buildResponse(null, projects);
     }
 
     /**

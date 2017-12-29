@@ -8,7 +8,8 @@ const linkSchema = new Schema({
     status: {
         type: String,
         enum: ['Valid', 'Review', 'Invaild']
-    }
+    },
+    reason: String
 });
 
 export default mongoose.model('Link', linkSchema);

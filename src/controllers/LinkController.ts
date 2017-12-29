@@ -12,8 +12,8 @@ class LinkController {
     @GET
     @Path('/')
     async getAllLinks() {
-        let links = await Link.find({status: 'Valid'});
-        return buildResponse(null, { links });
+        let links = await Link.find({ status: 'Valid' });
+        return buildResponse(null, links);
     }
 
     /**
@@ -22,7 +22,7 @@ class LinkController {
     @POST
     @Path('/')
     async addLink( @CtxParam('ctx') ctx: any, @BodyParam('link') link: any) {
-        
+
         //设置创建人 和 创建时间
         Object.assign(link, {
             status: 'Review'
@@ -42,7 +42,7 @@ class LinkController {
     @Path('/get-by-user', userAdminLoginAuth)
     async getPostsByUser( @CtxParam('ctx') ctx: any) {
         let links = await Link.find({});
-        return buildResponse(null, { links });
+        return buildResponse(null, links);
     }
 
 
@@ -51,7 +51,7 @@ class LinkController {
      */
     @POST
     @Path('/:linkId', userAdminLoginAuth)
-    async reviewLink( @PathParam('linkId') linkId: any, @BodyParam('link') link: any) {
+    async auditLink( @PathParam('linkId') linkId: any, @BodyParam('link') link: any) {
         let result = await Link.findByIdAndUpdate(linkId, { $set: link }, { new: true });
         return buildResponse(null, result);
     }
