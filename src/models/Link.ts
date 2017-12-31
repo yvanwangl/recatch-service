@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const linkSchema = new Schema({
     name: String,
     link: String,
+    email: String,
     description: String,
     status: {
         type: String,
