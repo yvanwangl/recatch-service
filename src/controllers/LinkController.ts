@@ -1,4 +1,4 @@
-import { Path, GET, POST, BodyParam, CtxParam, PathParam } from 'iwinter';
+import { Path, GET, POST, PUT, BodyParam, CtxParam, PathParam } from 'iwinter';
 import Link from '../models/Link';
 import { userAdminLoginAuth } from '../auth';
 import { buildResponse } from '../utils';
@@ -49,7 +49,7 @@ class LinkController {
     /**
      * 只有超级管理员才有权限对友链进行审核
      */
-    @POST
+    @PUT
     @Path('/:linkId', userAdminLoginAuth)
     async auditLink( @PathParam('linkId') linkId: any, @BodyParam('link') link: any) {
         let result = await Link.findByIdAndUpdate(linkId, { $set: link }, { new: true });
