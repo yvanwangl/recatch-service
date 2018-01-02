@@ -2,6 +2,8 @@ import { Path, GET, CtxParam } from 'iwinter';
 import Post from '../models/Post';
 import Comment from '../models/Comment';
 import Label from '../models/Label';
+import Project from '../models/Project';
+import Link from '../models/Link';
 import { userLoginAuth } from '../auth';
 import { buildResponse } from '../utils';
 
@@ -14,7 +16,7 @@ class StatisticsController {
     @GET
     @Path('/')
     async getStatistics( @CtxParam('ctx') ctx: any) {
-        let { userId } = ctx.session.userInfo;
+        let { userId, admin } = ctx.session.userInfo;
         let posts = await Post.findByUserId(userId);
         let pageViewCount = posts.reduce((viewCount, post) => viewCount += post.count, 0);
         let commentCount = await posts.reduce(async (commentCount, post) => {
@@ -23,7 +25,16 @@ class StatisticsController {
             return comments + commentTotal;
         }, Promise.resolve(0));
         let labelCount = await Label.count({ userId });
-        return buildResponse(null, {postCount: posts.length, commentCount, labelCount, pageViewCount});
+        let projectCount = await Project.count({ userId });
+        let validLinkCount = 0;
+        let invalidLinkCount = 0;
+        let reviewLinkCount = 0;
+        if(admin) {
+            validLinkCount = await Link.count({status: 'Valid'});
+            invalidLinkCount = await Link.count({status: 'Invaild'});
+            reviewLinkCount = await Link.count({status: 'Review'});
+        }
+        return buildResponse(null, { postCount: posts.length, commentCount, labelCount, projectCount, pageViewCount, validLinkCount, invalidLinkCount, reviewLinkCount });
     }
 }
 
