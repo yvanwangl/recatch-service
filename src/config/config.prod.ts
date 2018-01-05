@@ -1,17 +1,31 @@
+let {
+    MONGODB_HOST,
+    MONGODB_DATABASE,
+    MONGODB_PORT,
+    MONGODB_USER,
+    MONGODB_PWD,
+    SERVER_HOST,
+    QINIU_PUBLIC_BUCKET_DOMAIN,
+    QINIU_ACCESS_KEY,
+    QINIU_SECRET_KEY,
+    QINIU_BUCKET,
+} = process.env;
+
 export default {
     mongodb: {
-        host: 'mongodb',
-        port: '27017',
-        user: '',
-        pwd: ''
+        host: MONGODB_HOST,
+        database: MONGODB_DATABASE,
+        port: MONGODB_PORT,
+        user: MONGODB_USER,
+        pwd: MONGODB_PWD,
     },
     server: {
-        host: '192.168.20.90'
+        host: SERVER_HOST
     },
     qiniu: {
-        publicBucketDomain: 'http://ogqip2l94.bkt.clouddn.com',
-        accessKey: '-vAhWWooXmHFPjI7KYNR8raEwggDE2Ev4R2oSJfX',
-        secretKey: 'o7XGqlRqjlF5-NUV_ncd3g9NAUNdzxi65LFoe5Qf',
-        bucket: 'yvan'
+        publicBucketDomain: QINIU_PUBLIC_BUCKET_DOMAIN,
+        accessKey: QINIU_ACCESS_KEY,
+        secretKey: QINIU_SECRET_KEY,
+        bucket: QINIU_BUCKET
     }
 };
