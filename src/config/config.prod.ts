@@ -11,6 +11,9 @@ let {
     QINIU_BUCKET,
 } = process.env;
 
+console.log(MONGODB_HOST);
+console.log(QINIU_PUBLIC_BUCKET_DOMAIN);
+
 export default {
     mongodb: {
         host: MONGODB_HOST,
