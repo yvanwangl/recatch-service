@@ -1,23 +1,33 @@
-// import { RequestMapping } from '../decorators/requestMapping';
-// import { httpGet, httpPost } from '../decorators/http-methods';
-// import { path } from '../decorators/path';
-import {Path, GET, POST, PathParam} from 'iwinter';
+import { Path, GET, POST, PathParam, BodyParam, CtxParam } from 'iwinter';
+import User from '../models/User';
+import { userLoginAuth } from '../auth';
+import { buildResponse } from '../utils';
 
 @Path('/api/users')
 class UserController {
 
+    /**
+     * 获取登录用户信息，邮箱等
+     */
     @GET
-    @Path('/')
-    getAllUsers(){
-        return [{
-            id: 1, name:'wangyafei',age:20
-        }];
+    @Path('/', userLoginAuth)
+    async getUserInfo( @CtxParam('ctx') ctx: any) {
+        let { userId } = ctx.session.userInfo;
+        let user = await User.findById(userId);
+        return buildResponse(null, {_id: user._id, username: user.username, email: user.email});
     }
 
+    /**
+     * 设置用户邮箱
+     * @param id 
+     */
     @POST
-    @Path('/:id')
-    getUserById(@PathParam('id') id: string){
-        return [{id, name:'lihuan'}]
+    @Path('/email', userLoginAuth)
+    async getUserById( @BodyParam('emailInfo') emailInfo: any, @CtxParam('ctx') ctx: any) {
+        let { email } = emailInfo;
+        let { userId } = ctx.session.userInfo;
+        let result = await User.findByIdAndUpdate(userId, { $set: { email } }, { new: true });
+        return buildResponse(null, {_id: result._id, username: result.username, email: result.email});
     }
 }
 
