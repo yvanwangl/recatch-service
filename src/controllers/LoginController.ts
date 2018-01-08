@@ -2,7 +2,9 @@ import { POST, Path, BodyParam, CtxParam } from 'iwinter';
 import User from '../models/User';
 import { genSalt, buildResponse } from '../utils';
 import { userInfo } from 'os';
+import config from '../config';
 const md5 = require('blueimp-md5');
+const { registor } = config;
 
 export interface LonginInfo {
     type?: string;
@@ -22,10 +24,16 @@ class LoginController {
     @Path('/')
     doLogin( @BodyParam('loginInfo') loginInfo: LonginInfo, @CtxParam('ctx') ctx: any) {
         let type = loginInfo['type'];
+        //登录
         if (type == 'signin') {
             return this.signin(loginInfo, ctx);
         } else {
-            return this.signup(loginInfo, ctx);
+            //判断是否开放注册接口
+            if(registor) {
+                return this.signup(loginInfo, ctx);
+            }else {
+                return buildResponse('Comming Soon ...');
+            }
         }
     }
 

@@ -8,7 +8,7 @@ const linkSchema = new Schema({
     description: String,
     status: {
         type: String,
-        enum: ['Valid', 'Review', 'Invaild']
+        enum: ['Valid', 'Review', 'Invalid']
     },
     reason: String
 });

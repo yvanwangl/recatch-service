@@ -14,11 +14,14 @@ const app = new Koa();
 connectMongoose();
 
 //cros config
-app.use(cors({
-    //origin: '*',
-    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
-    credentials: true,
-}));
+//开发模式设置跨域
+if (process.env.NODE_ENV === 'development') {
+    app.use(cors({
+        //origin: '*',
+        allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+        credentials: true,
+    }));
+}
 
 app.keys = ['recatch secret key'];
 //config session

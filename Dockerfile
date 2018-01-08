@@ -20,4 +20,4 @@ RUN npm install pm2 -g
 EXPOSE 8082
 
 #RUN container run command
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start:docker"]

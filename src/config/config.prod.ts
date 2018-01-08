@@ -9,10 +9,12 @@ let {
     QINIU_ACCESS_KEY,
     QINIU_SECRET_KEY,
     QINIU_BUCKET,
+    EMAIL_HOST,
+    EMAIL_PORT,
+    EMAIL_USER,
+    EMAIL_PASS,
+    REGISTOR
 } = process.env;
-
-console.log(MONGODB_HOST);
-console.log(QINIU_PUBLIC_BUCKET_DOMAIN);
 
 export default {
     mongodb: {
@@ -30,5 +32,12 @@ export default {
         accessKey: QINIU_ACCESS_KEY,
         secretKey: QINIU_SECRET_KEY,
         bucket: QINIU_BUCKET
-    }
+    },
+    emial: {
+        host: EMAIL_HOST,
+        port: EMAIL_PORT,
+        user: EMAIL_USER,
+        pass: EMAIL_PASS
+    },
+    registor: REGISTOR
 };

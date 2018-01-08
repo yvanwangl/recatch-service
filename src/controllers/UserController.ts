@@ -1,6 +1,6 @@
 import { Path, GET, POST, PathParam, BodyParam, CtxParam } from 'iwinter';
 import User from '../models/User';
-import { userLoginAuth } from '../auth';
+import { userLoginAuth, userAdminLoginAuth } from '../auth';
 import { buildResponse } from '../utils';
 
 @Path('/api/users')
@@ -28,6 +28,16 @@ class UserController {
         let { userId } = ctx.session.userInfo;
         let result = await User.findByIdAndUpdate(userId, { $set: { email } }, { new: true });
         return buildResponse(null, {_id: result._id, username: result.username, email: result.email});
+    }
+
+    /**
+     * 生成注册码
+     * 只有超级管理员可以访问
+     */
+    @GET
+    @Path('/gen-registor-code', userAdminLoginAuth)
+    genRegistorCode(){
+        return 'comming soon...';
     }
 }
 

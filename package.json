@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "cross-env NODE_ENV=development nodemon --watch src/**/* -e ts,tsx --exec ts-node ./src/bin/www",
-    "start:prod": "cross-env NODE_ENV=production pm2-docker start ./build/bin/www.js",
-    "build": "tsc -P tsconfig.json --declaration false --sourceMap false"
+    "start": "cross-env NODE_ENV=development nodemon --watch src/**/* -e ts,tsx --exec ts-node ./src/bin/www",
+    "build": "tsc -P tsconfig.json --declaration false --sourceMap false",
+    "start:prod": "pm2 start ecosystem.config.js --env production --name recatch-service",
+    "start:docker": "cross-env NODE_ENV=production pm2-docker start ./build/bin/www.js"
   },
   "pre-commit": [
     "build"
@@ -40,6 +41,7 @@
     "koa-session": "^5.5.1",
     "lodash": "^4.17.4",
     "mongoose": "^4.13.0",
+    "nodemailer": "^4.4.1",
     "pm2-docker": "^2.1.0",
     "pre-commit": "^1.2.2",
     "qiniu": "^7.1.1",

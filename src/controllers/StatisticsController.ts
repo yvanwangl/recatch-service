@@ -31,7 +31,7 @@ class StatisticsController {
         let reviewLinkCount = 0;
         if(admin) {
             validLinkCount = await Link.count({status: 'Valid'});
-            invalidLinkCount = await Link.count({status: 'Invaild'});
+            invalidLinkCount = await Link.count({status: 'Invalid'});
             reviewLinkCount = await Link.count({status: 'Review'});
         }
         return buildResponse(null, { postCount: posts.length, commentCount, labelCount, projectCount, pageViewCount, validLinkCount, invalidLinkCount, reviewLinkCount });

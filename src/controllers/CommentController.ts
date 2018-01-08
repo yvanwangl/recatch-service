@@ -1,6 +1,8 @@
 import { Path, GET, POST, DELETE, CtxParam, BodyParam, PathParam } from 'iwinter';
+import Email from '../email';
 import Post from '../models/Post';
 import Comment from '../models/Comment';
+import User from '../models/User';
 import { userLoginAuth } from '../auth';
 import { buildResponse } from '../utils';
 
@@ -18,7 +20,7 @@ class CommentController {
         let posts = await Post.findByUserId(userId);
         let comments = await posts.reduce(async (commentsP, post) => {
             let commentsByPostId = await Comment.findByPostId(post['_id']);
-            commentsByPostId.map(comment=> comment['postName'] = post.title);
+            commentsByPostId.map(comment => comment['postName'] = post.title);
             let comments = await commentsP;
             return comments.concat(commentsByPostId);
         }, Promise.resolve([]));
@@ -33,6 +35,8 @@ class CommentController {
     async addComment( @BodyParam('comment') comment: any) {
         let newComment = new Comment(comment);
         let result = await newComment.save();
+        //新增评论成功，发送邮件
+        this.sendEmail(result.postId, result.commentContent);
         return buildResponse(null, result);
     }
 
@@ -50,6 +54,23 @@ class CommentController {
         }));
         commentIds.push(commentId);
         return buildResponse(null, { commentIds });
+    }
+
+    /**
+     * 发送邮件
+     */
+    async sendEmail(postId: string, commentContent: string) {
+        let post = await Post.findById(postId);
+        let user = await User.findById(post.userId);
+        //用户配置邮件则发送
+        if (user.email) {
+            let email = new Email();
+            email.sendMail({
+                target: user.email,
+                subject: `博客 《 ${post.title} 》 收到新评论`,
+                html: ` ${post.title} 收到新评论:<br/><br/> ${commentContent} <br/><br/> <a href='http://blog.yvanwang.com' target='_blank'>快去查看吧!</a>`
+            });
+        }
     }
 
 }
