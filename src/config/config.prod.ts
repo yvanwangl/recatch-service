@@ -16,6 +16,8 @@ let {
     REGISTOR
 } = process.env;
 
+console.log(`REGISTOR: ${REGISTOR}`);
+
 export default {
     mongodb: {
         host: MONGODB_HOST,
@@ -39,5 +41,5 @@ export default {
         user: EMAIL_USER,
         pass: EMAIL_PASS
     },
-    registor: false
+    registor: REGISTOR
 };

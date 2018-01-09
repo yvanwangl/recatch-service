@@ -29,7 +29,7 @@ class LoginController {
             return this.signin(loginInfo, ctx);
         } else {
             //判断是否开放注册接口
-            console.log(registor);
+            console.log(`login-controller-registor: ${registor}`);
             if (registor) {
                 return this.signup(loginInfo, ctx);
             } else {
