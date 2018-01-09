@@ -7,6 +7,4 @@ const overrideConfig = require(`./config.${env}`).default;
 
 const config = _.merge(defaultConfig, overrideConfig);
 
-console.log(`index-REGISTOR: ${config.registor}`);
-
 export default config;

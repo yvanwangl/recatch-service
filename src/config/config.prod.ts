@@ -16,8 +16,6 @@ let {
     REGISTOR
 } = process.env;
 
-console.log(`REGISTOR: ${REGISTOR}`);
-
 export default {
     mongodb: {
         host: MONGODB_HOST,
@@ -41,5 +39,6 @@ export default {
         user: EMAIL_USER,
         pass: EMAIL_PASS
     },
-    registor: REGISTOR
+    //由于docker配置环境变量为字符串，此处做兼容处理
+    registor: String(REGISTOR) == 'true'
 };
