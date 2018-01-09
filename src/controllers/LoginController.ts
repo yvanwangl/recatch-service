@@ -29,9 +29,10 @@ class LoginController {
             return this.signin(loginInfo, ctx);
         } else {
             //判断是否开放注册接口
-            if(registor) {
+            console.log(registor);
+            if (registor) {
                 return this.signup(loginInfo, ctx);
-            }else {
+            } else {
                 return buildResponse('Comming Soon ...');
             }
         }
