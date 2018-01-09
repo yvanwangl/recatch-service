@@ -32,7 +32,7 @@ class LoginController {
             if (registor) {
                 return this.signup(loginInfo, ctx);
             } else {
-                return buildResponse('Comming Soon ...');
+                return buildResponse('comming.soon');
             }
         }
     }
