@@ -39,5 +39,5 @@ export default {
         user: EMAIL_USER,
         pass: EMAIL_PASS
     },
-    registor: REGISTOR
+    registor: false
 };
