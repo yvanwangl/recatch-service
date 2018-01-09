@@ -17,7 +17,7 @@ class PostController {
     @GET
     @Path('/')
     async getAllPosts() {
-        let posts = await Post.find({});
+        let posts = await Post.find({ postStatus: 'Publish' });
         let postList = await Promise.all(posts.map(async (post) => {
             let commentsByPostId = await Comment.findByPostId(post['_id']);
             post['comments'] = commentsByPostId.map(comment => {
@@ -57,14 +57,14 @@ class PostController {
     async getPostById( @PathParam('postId') postId: string) {
         let [post, comments] = await Promise.all([Post.findById(postId), Comment.findByPostId(postId)]);
         //更新访问量数据
-        post = await Post.findByIdAndUpdate(postId, { $set: {count: post.count+1} }, { new: true });
+        post = await Post.findByIdAndUpdate(postId, { $set: { count: post.count + 1 } }, { new: true });
         let labels = await Promise.all(post.labels.map(async (labelId) => {
             let label = await Label.findById(labelId);
             return label;
         }))
         post.comments = comments;
         post.labels = labels;
-        
+
         return buildResponse(null, post);
     }
 

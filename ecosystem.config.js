@@ -24,7 +24,8 @@ module.exports = {
                 "EMAIL_HOST":'',
                 "EMAIL_PORT":'',
                 "EMAIL_USER":'',
-                "EMAIL_PASS":''
+                "EMAIL_PASS":'',
+                "REGISTOR":''
             }
         }
     ]
