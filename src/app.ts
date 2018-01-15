@@ -3,6 +3,7 @@ import * as Koa from 'koa'
 import * as path from 'path';
 import * as cors from '@koa/cors';
 import * as Router from 'koa-router';
+import * as koaStatic from 'koa-static';
 import * as koaBody from 'koa-body';
 import * as koaSession from 'koa-session';
 //import controller from './controller';
@@ -41,6 +42,8 @@ app.use(async (ctx, next) => {
     ctx.response.set('X-Response-Time', execTime);
 });
 app.use(koaBody());
+
+app.use(koaStatic(path.join(__dirname, '../public')));
 
 //controller
 app.use(new IWinter({

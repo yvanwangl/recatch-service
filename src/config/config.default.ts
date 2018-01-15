@@ -11,6 +11,8 @@ export default {
         port: '8082'
     },
     qiniu: {
+        //是否上传到七牛
+        doUpload: false,
         publicBucketDomain: '',
         accessKey: '',
         secretKey: '',
@@ -22,5 +24,6 @@ export default {
         user: '',
         pass: ''
     },
+    //是否开启注册功能
     registor: true
 };

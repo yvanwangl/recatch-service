@@ -17,6 +17,7 @@ module.exports = {
                 "MONGODB_USER":'',
                 "MONGODB_PWD":'',
                 "SERVER_HOST":'',
+                "QINIU_DOUPLOAD":'',
                 "QINIU_PUBLIC_BUCKET_DOMAIN":'',
                 "QINIU_ACCESS_KEY":'',
                 "QINIU_SECRET_KEY":'',

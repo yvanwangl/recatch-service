@@ -5,6 +5,7 @@ let {
     MONGODB_USER,
     MONGODB_PWD,
     SERVER_HOST,
+    QINIU_DOUPLOAD,
     QINIU_PUBLIC_BUCKET_DOMAIN,
     QINIU_ACCESS_KEY,
     QINIU_SECRET_KEY,
@@ -28,6 +29,8 @@ export default {
         host: SERVER_HOST
     },
     qiniu: {
+        //由于docker配置环境变量为字符串，此处做兼容处理
+        doUpload: String(QINIU_DOUPLOAD) == 'true',
         publicBucketDomain: QINIU_PUBLIC_BUCKET_DOMAIN,
         accessKey: QINIU_ACCESS_KEY,
         secretKey: QINIU_SECRET_KEY,
