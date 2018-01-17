@@ -106,7 +106,7 @@ env_production: {
 
 `2.`部署 docker 容器：</br>
 首先构建 docker 镜像，需要在项目根目录下运行：`docker build --rm -f Dockerfile -t recatch-service:latest .`</br>
-然后使用 docker-compose 运行容器：`docker-compose up -d`
+然后使用 docker-compose 运行容器：`docker-compose up -d`</br>
 注意：  运行前需要对环境变量进行配置</br>
 该方式的部署需要修改根目录下的 `docker-compose.yml` 文件</br>
 ```
