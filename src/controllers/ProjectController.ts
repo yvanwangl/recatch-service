@@ -12,7 +12,7 @@ class ProjectController {
     @GET
     @Path('/')
     async getAllProjects() {
-        let projects = await Project.find({});
+        let projects = await Project.find({ userName: { $nor: 'registor' } });
         return buildResponse(null, projects);
     }
 
