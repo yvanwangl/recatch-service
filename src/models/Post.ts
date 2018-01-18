@@ -28,7 +28,7 @@ postSchema.statics.findByStatus = async function (postStatus) {
 };
 
 postSchema.statics.findByUserId = async function (userId) {
-    return await this.find({ userId });
+    return await this.find({ userId, postStatus: { $in: ['Draft', 'Publish']} });
 };
 
 export default mongoose.model('Post', postSchema);
