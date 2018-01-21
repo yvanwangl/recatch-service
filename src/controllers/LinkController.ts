@@ -41,7 +41,7 @@ class LinkController {
                 ${result.name}<br/>
                 ${result.description}<br/>
                 <a href='${result.link}' target='_blank'>${result.link}</a><br/><br/> 
-                <a href='http://admin.yvanwang.com' target='_blank'>前往审核</a>`
+                <a href='https://admin.yvanwang.com' target='_blank'>前往审核</a>`
             );
         }
         return buildResponse(null, result);
@@ -73,11 +73,11 @@ class LinkController {
         switch (result.status) {
             case 'Valid':
                 subject = '友链审核通过';
-                content = '您的友链申请审核通过啦，<br/><br/><a href="http://blog.yvanwang.com">前往查看吧</a>';
+                content = '您的友链申请审核通过啦，<br/><br/><a href="https://www.yvanwang.com/links">前往查看吧</a>';
                 break;
             case 'Invalid':
                 subject = '友链审核失败';
-                content = `您的友链申请审核未通过，审核失败原因为：<br/><br/>${result.reason}<br/><br/><a href="http://blog.yvanwang.com">提交新申请</a>`;
+                content = `您的友链申请审核未通过，审核失败原因为：<br/><br/>${result.reason}<br/><br/><a href="https://www.yvanwang.com/links">提交新申请</a>`;
                 break;
         }
         this.sendEmail(result.email, subject, content);

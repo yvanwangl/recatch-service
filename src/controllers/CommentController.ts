@@ -68,7 +68,7 @@ class CommentController {
             email.sendMail({
                 target: user.email,
                 subject: `博客 《 ${post.title} 》 收到新评论`,
-                html: ` ${post.title} 收到新评论:<br/><br/> ${commentContent} <br/><br/> <a href='http://blog.yvanwang.com' target='_blank'>快去查看吧!</a>`
+                html: ` ${post.title} 收到新评论:<br/><br/> ${commentContent} <br/><br/> <a href='https://www.yvanwang.com/${postId}' target='_blank'>快去查看吧!</a>`
             });
         }
     }
