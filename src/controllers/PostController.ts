@@ -17,7 +17,8 @@ class PostController {
     @GET
     @Path('/')
     async getAllPosts() {
-        let posts = await Post.find({ postStatus: 'Publish' });
+        //硬编码过滤掉 registor 的文章
+        let posts = await Post.find({ postStatus: 'Publish', userName: { $ne: 'registor' } });
         let postList = await Promise.all(posts.map(async (post) => {
             let commentsByPostId = await Comment.findByPostId(post['_id']);
             post['comments'] = commentsByPostId.map(comment => {

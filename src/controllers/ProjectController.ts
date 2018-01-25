@@ -12,6 +12,7 @@ class ProjectController {
     @GET
     @Path('/')
     async getAllProjects() {
+        //硬编码过滤掉 registor 的项目
         let projects = await Project.find({ userName: { $ne: 'registor' } });
         return buildResponse(null, projects);
     }
