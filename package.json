@@ -47,7 +47,8 @@
     "pre-commit": "^1.2.2",
     "qiniu": "^7.1.1",
     "reflect-metadata": "^0.1.10",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.1",
+    "mz": "^2.6.0"
   },
   "devDependencies": {
     "nodemon": "^1.12.1",

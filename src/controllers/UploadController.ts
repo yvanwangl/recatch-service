@@ -1,5 +1,5 @@
 import { Path, POST, BodyParam, CtxParam } from 'iwinter';
-import * as fs from 'fs';
+import * as fs from 'mz/fs';
 import * as path from 'path';
 import * as formidable from 'formidable';
 import * as qiniu from 'qiniu';
