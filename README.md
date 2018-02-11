@@ -149,7 +149,6 @@ EMAIL_USER: 发送邮件的用户，为个人邮箱</br>
 EMAIL_PASS：发送邮件的验证密码，具体设置参考 [使用 Node.js 的 nodemailer 模块发送邮件（支持 QQ、163 等、支持附件）](http://www.lovebxm.com/2017/07/21/node-mail/)</br>
 REGISTOR: 是否开放注册功能
 
-
 由于该项目采用前后端分离的方式进行开发，该项目为后端部分，所以还需要部署前端服务项目 [recatch](https://github.com/yvanwangl/recatch) [recatch-ui](https://github.com/yvanwangl/recatch-ui)
 
 > 欢迎Star，有问题请提 issue :)
