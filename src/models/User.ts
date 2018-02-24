@@ -6,7 +6,11 @@ var userSchema = new Schema({
     password: String,
     email: String,
     salt: String,
-    admin: Boolean
+    admin: Boolean,
+    status: {
+        type: String,
+        enum: ['Valid', 'Invaild'],
+    }
 });
 
 /**

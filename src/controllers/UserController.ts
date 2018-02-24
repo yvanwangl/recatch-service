@@ -7,6 +7,26 @@ import { buildResponse } from '../utils';
 class UserController {
 
     /**
+     * 获取系统用户列表，只有超级管理员有权限访问
+     */
+    @GET
+    @Path('/all', userAdminLoginAuth)
+    async getAllUsers( @CtxParam('ctx') ctx: any) {
+        let users = await User.findById({});
+        return buildResponse(null, {users});
+    }
+
+    /**
+     * 超级管理员可以修改其他用户的状态，例如锁定用户，之后该用户不可登录
+     */
+    @GET
+    @Path('/user/:userId', userAdminLoginAuth)
+    async lockUser( @PathParam('userId') userId: string) {
+        let result = await User.findByIdAndUpdate(userId, { $set: { status: 'Invaild' } }, { new: true });
+        return buildResponse(null, { _id: userId });
+    }
+
+    /**
      * 获取登录用户信息，邮箱等
      */
     @GET
