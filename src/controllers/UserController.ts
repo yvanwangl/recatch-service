@@ -12,8 +12,8 @@ class UserController {
     @GET
     @Path('/all', userAdminLoginAuth)
     async getAllUsers( @CtxParam('ctx') ctx: any) {
-        let users = await User.findById({});
-        return buildResponse(null, {users});
+        let users = await User.find({});
+        return buildResponse(null, users);
     }
 
     /**
