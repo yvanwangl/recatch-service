@@ -62,7 +62,11 @@ class LoginController {
         if (users.length != 1) {
             return buildResponse('username.or.password.error');
         }
-        let { _id, salt, password: confirmPwd, admin } = users[0];
+        let { _id, salt, password: confirmPwd, admin, status } = users[0];
+        //判断该用户是否被锁定
+        if(status == 'Invaild'){
+            return buildResponse('user.has.been.locked');
+        }
         //判断密码是否正确
         if (md5(password, salt) != confirmPwd) {
             return buildResponse('username.or.password.error');
