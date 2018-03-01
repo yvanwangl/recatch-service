@@ -34,6 +34,7 @@
     "blueimp-md5": "^2.10.0",
     "cross-env": "^5.1.1",
     "formidable": "^1.1.1",
+    "ioredis": "^3.2.2",
     "iwinter": "^0.5.4",
     "koa": "^2.4.1",
     "koa-body": "^2.5.0",
@@ -42,13 +43,13 @@
     "koa-static": "^4.0.2",
     "lodash": "^4.17.4",
     "mongoose": "^4.13.0",
+    "mz": "^2.6.0",
     "nodemailer": "^4.4.1",
     "pm2-docker": "^2.1.0",
     "pre-commit": "^1.2.2",
     "qiniu": "^7.1.1",
     "reflect-metadata": "^0.1.10",
-    "typescript": "^2.6.1",
-    "mz": "^2.6.0"
+    "typescript": "^2.6.1"
   },
   "devDependencies": {
     "nodemon": "^1.12.1",

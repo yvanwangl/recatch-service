@@ -1,7 +1,9 @@
+import { Context } from 'koa';
 import { POST, Path, BodyParam, CtxParam } from 'iwinter';
 import User from '../models/User';
-import { genSalt, buildResponse } from '../utils';
+import { genSalt, buildResponse, checkEmail, genToken } from '../utils';
 import { userInfo } from 'os';
+import Redis from 'ioredis';
 import config from '../config';
 const md5 = require('blueimp-md5');
 const { registor } = config;
@@ -10,6 +12,20 @@ export interface LonginInfo {
     type?: string;
     username: string;
     password: string;
+}
+
+export interface UserInfo {
+    userId: string;
+    username: string;
+    admin: boolean;
+}
+
+export interface Ctx extends Context {
+    session: { userInfo: UserInfo };
+}
+
+export interface EmailInfo {
+    email: string;
 }
 
 @Path('/api/login')
@@ -22,7 +38,7 @@ class LoginController {
      */
     @POST
     @Path('/')
-    doLogin( @BodyParam('loginInfo') loginInfo: LonginInfo, @CtxParam('ctx') ctx: any) {
+    doLogin(@BodyParam('loginInfo') loginInfo: LonginInfo, @CtxParam('ctx') ctx: Ctx) {
         let type = loginInfo['type'];
         //登录
         if (type == 'signin') {
@@ -43,7 +59,7 @@ class LoginController {
      */
     @POST
     @Path('/validate-username')
-    async validateUsername( @BodyParam('loginInfo') loginInfo: LonginInfo) {
+    async validateUsername(@BodyParam('loginInfo') loginInfo: LonginInfo) {
         let username = loginInfo['username'];
         let users = await User.findByUsername(username);
         if (users.length > 0) {
@@ -57,14 +73,14 @@ class LoginController {
      * @param { username, password }: loginInfo
      * @param ctx
      */
-    private async signin({ username, password }: LonginInfo, ctx: any) {
+    private async signin({ username, password }: LonginInfo, ctx: Ctx) {
         let users = await User.findByUsername(username);
         if (users.length != 1) {
             return buildResponse('username.or.password.error');
         }
         let { _id, salt, password: confirmPwd, admin, status } = users[0];
         //判断该用户是否被锁定
-        if(status == 'Invaild'){
+        if (status == 'Invaild') {
             return buildResponse('user.has.been.locked');
         }
         //判断密码是否正确
@@ -78,16 +94,33 @@ class LoginController {
     }
 
     /**
+     * 用户注册，获取邀请码
+     */
+    @POST
+    @Path('/gen-token')
+    async genUserToken(@BodyParam('emailInfo') emailInfo: EmailInfo) {
+        let { email } = emailInfo;
+        if (checkEmail(email)) {
+            //生成邀请码，写入 redis，同时给用户发送邮件
+            let token = `${genToken(3)}-${genToken(6)}-${genToken(3)}`;
+            let redis = new Redis();
+            return buildResponse(null);
+        }
+        return buildResponse('email.is.invalid');
+    }
+
+    /**
      * 用户注册
      * @param {username, password}
      */
-    private async signup({ username, password }: LonginInfo, ctx: any) {
+    private async signup({ username, password }: LonginInfo, ctx: Ctx) {
         let salt = genSalt();
         let newUser = new User({
             username,
             password: md5(password, salt),
             salt,
-            admin: false
+            admin: false,
+            status: 'Valid'
         });
         let result = await newUser.save();
         if (result.errors) {

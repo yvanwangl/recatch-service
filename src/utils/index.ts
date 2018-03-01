@@ -1,13 +1,17 @@
-//生成随机字符串salt
-export function genSalt(len: number=6): string{
-    let saltStrList = '0123456789abcdefghijklmnopqrstuvwxy';
-    let saltStrLen = saltStrList.length;
-    let salt = '';
-    for(let i=0; i<len; i++) {
-        salt += saltStrList[Math.floor(Math.random()*saltStrLen)];
+//生成随机字符串 salt
+export function genSalt(len: number = 6): string {
+    return genToken(len) + new Date().getTime();
+}
+
+//生成随机字符串 token
+export function genToken(len: number = 6): string {
+    let tokenStrList = '0123456789abcdefghijklmnopqrstuvwxy';
+    let tokenStrLen = tokenStrList.length;
+    let token = '';
+    for (let i = 0; i < len; i++) {
+        token += tokenStrList[Math.floor(Math.random() * tokenStrLen)];
     }
-    salt += new Date().getTime();
-    return salt
+    return token;
 }
 
 /**
@@ -17,9 +21,17 @@ export function genSalt(len: number=6): string{
  * @param errorCode 
  * @param data 
  */
-export function buildResponse(errorCode: string, data?: any){
-    if(!errorCode) {
-        return {success: true, data, errorCode: null};
+export function buildResponse(errorCode: string, data?: any) {
+    if (!errorCode) {
+        return { success: true, data, errorCode: null };
     }
-    return {success: false, data: null, errorCode};
+    return { success: false, data: null, errorCode };
+}
+
+/**
+ * 校验 email 是否合法
+ * @param email 
+ */
+export function checkEmail(email: string) {
+    return /^[\w]+@[\w]{1,5}\.[a-zA-Z]{2,3}$/.test(email);
 }
