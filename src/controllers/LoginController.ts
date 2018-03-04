@@ -6,7 +6,7 @@ import { userInfo } from 'os';
 import Redis from 'ioredis';
 import config from '../config';
 const md5 = require('blueimp-md5');
-const { registor } = config;
+const { redis, registor } = config;
 
 export interface LonginInfo {
     type?: string;
@@ -103,7 +103,8 @@ class LoginController {
         if (checkEmail(email)) {
             //生成邀请码，写入 redis，同时给用户发送邮件
             let token = `${genToken(3)}-${genToken(6)}-${genToken(3)}`;
-            let redis = new Redis();
+            let redisInstance = new Redis(redis);
+            
             return buildResponse(null);
         }
         return buildResponse('email.is.invalid');

@@ -4,6 +4,9 @@ let {
     MONGODB_PORT,
     MONGODB_USER,
     MONGODB_PWD,
+    REDIS_HOST,
+    REDIS_PORT,
+    REDIS_PASSWORD,
     SERVER_HOST,
     QINIU_DOUPLOAD,
     QINIU_PUBLIC_BUCKET_DOMAIN,
@@ -24,6 +27,11 @@ export default {
         port: MONGODB_PORT,
         user: MONGODB_USER,
         pwd: MONGODB_PWD,
+    },
+    redis: {
+        host: REDIS_HOST,
+        port: REDIS_PORT,
+        password: REDIS_PASSWORD
     },
     server: {
         host: SERVER_HOST
