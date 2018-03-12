@@ -1,12 +1,20 @@
 // import {RequestMapping} from '../decorators/requestMapping';
 // import {httpGet, httpPost} from '../decorators/http-methods';
 // import {path} from '../decorators/path';
-import { Path, GET, POST, PUT, DELETE, BodyParam, CtxParam, PathParam } from 'iwinter';
+import { Path, GET, POST, PUT, DELETE, BodyParam, CtxParam, PathParam, QueryParam } from 'iwinter';
 import Post from '../models/Post';
 import Comment from '../models/Comment';
 import Label from '../models/Label';
 import { userLoginAuth } from '../auth';
 import { buildResponse } from '../utils';
+import config from '../config';
+import { SIGKILL } from 'constants';
+
+let { page: {limit} } = config;
+
+export interface QueryAll {
+    currentPage: number;
+}
 
 @Path('/api/posts')
 class PostController {
@@ -16,9 +24,16 @@ class PostController {
      */
     @GET
     @Path('/')
-    async getAllPosts() {
+    async getAllPosts(@QueryParam('query') query: QueryAll) {
         //硬编码过滤掉 registor 的文章
-        let posts = await Post.find({ postStatus: 'Publish', userName: { $ne: 'registor' } });
+        let { currentPage } = query;
+        let skip = (currentPage - 1)*limit;
+        let queryCondition = { postStatus: 'Publish', userName: { $ne: 'registor' }};
+        let totalCount = await Post.count(queryCondition);
+        let posts = await Post.find(queryCondition)
+                                .sort('-publishDate')
+                                .limit(limit)
+                                .skip(skip);
         let postList = await Promise.all(posts.map(async (post) => {
             let commentsByPostId = await Comment.findByPostId(post['_id']);
             post['comments'] = commentsByPostId.map(comment => {
@@ -26,7 +41,7 @@ class PostController {
             });
             return post;
         }));
-        return buildResponse(null, { posts: postList });
+        return buildResponse(null, { posts: postList, totalCount });
     }
 
     /**
@@ -35,9 +50,15 @@ class PostController {
      */
     @GET
     @Path('/get-by-user', userLoginAuth)
-    async getPostsByUser( @CtxParam('ctx') ctx: any) {
+    async getPostsByUser( @CtxParam('ctx') ctx: any, @QueryParam('query') query: QueryAll) {
         let { userId } = ctx.session.userInfo;
-        let posts = await Post.findByUserId(userId);
+        let { currentPage } = query;
+        let skip = (currentPage - 1)*limit;
+        let totalCount = await Post.count({userId});
+        let posts = await Post.findByUserId(userId)
+                                .sort('-publishDate')
+                                .limit(limit)
+                                .skip(skip);
         let postList = await Promise.all(posts.map(async (post) => {
             let commentsByPostId = await Comment.findByPostId(post['_id']);
             post['comments'] = commentsByPostId.map(comment => {
@@ -47,7 +68,7 @@ class PostController {
         }));
         let labels = await Label.findByUserId(userId);
 
-        return buildResponse(null, { posts: postList, labels });
+        return buildResponse(null, { posts: postList, labels, totalCount });
     }
 
     /**

@@ -24,6 +24,9 @@ export default {
         user: '',
         pass: ''
     },
+    page: {
+        limit: 30
+    },
     //是否开启注册功能
     registor: true
 };
