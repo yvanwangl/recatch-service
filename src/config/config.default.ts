@@ -6,6 +6,13 @@ export default {
         user: '',
         pwd: ''
     },
+    redis: {
+        host: 'localhost',
+        port: 6379,
+        family: 4,
+        password: 'auth',
+        db: 0
+    },
     server: {
         host: 'localhost',
         port: '8082'
