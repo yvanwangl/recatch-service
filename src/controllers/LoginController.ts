@@ -3,7 +3,7 @@ import { POST, Path, BodyParam, CtxParam } from 'iwinter';
 import User from '../models/User';
 import { genSalt, buildResponse, checkEmail, genToken } from '../utils';
 import { userInfo } from 'os';
-import Redis from 'ioredis';
+//import { Redis } from 'ioredis';
 import config from '../config';
 const md5 = require('blueimp-md5');
 const { redis, registor } = config;
@@ -38,7 +38,7 @@ class LoginController {
      */
     @POST
     @Path('/')
-    doLogin(@BodyParam('loginInfo') loginInfo: LonginInfo, @CtxParam('ctx') ctx: Ctx) {
+    doLogin( @BodyParam('loginInfo') loginInfo: LonginInfo, @CtxParam('ctx') ctx: Ctx) {
         let type = loginInfo['type'];
         //登录
         if (type == 'signin') {
@@ -59,7 +59,7 @@ class LoginController {
      */
     @POST
     @Path('/validate-username')
-    async validateUsername(@BodyParam('loginInfo') loginInfo: LonginInfo) {
+    async validateUsername( @BodyParam('loginInfo') loginInfo: LonginInfo) {
         let username = loginInfo['username'];
         let users = await User.findByUsername(username);
         if (users.length > 0) {
@@ -98,13 +98,13 @@ class LoginController {
      */
     @POST
     @Path('/gen-token')
-    async genUserToken(@BodyParam('emailInfo') emailInfo: EmailInfo) {
+    async genUserToken( @BodyParam('emailInfo') emailInfo: EmailInfo) {
         let { email } = emailInfo;
         if (checkEmail(email)) {
             //生成邀请码，写入 redis，同时给用户发送邮件
             let token = `${genToken(3)}-${genToken(6)}-${genToken(3)}`;
-            let redisInstance = new Redis(redis);
-            
+            //let redisInstance = new Redis(redis);
+
             return buildResponse(null);
         }
         return buildResponse('email.is.invalid');

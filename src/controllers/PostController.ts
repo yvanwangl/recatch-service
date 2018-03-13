@@ -54,8 +54,9 @@ class PostController {
         let { userId } = ctx.session.userInfo;
         let { currentPage } = query;
         let skip = (currentPage - 1)*limit;
-        let totalCount = await Post.count({userId});
-        let posts = await Post.findByUserId(userId)
+        let queryCondition = { userId, postStatus: { $in: ['Draft', 'Publish']} };
+        let totalCount = await Post.count(queryCondition);
+        let posts = await Post.find(queryCondition)
                                 .sort('-publishDate')
                                 .limit(limit)
                                 .skip(skip);
@@ -68,7 +69,7 @@ class PostController {
         }));
         let labels = await Label.findByUserId(userId);
 
-        return buildResponse(null, { posts: postList, labels, totalCount });
+        return buildResponse(null, { posts: postList, labels, totalCount, currentPage });
     }
 
     /**
